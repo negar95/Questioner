@@ -332,20 +332,24 @@ extension ChatVC: PlayAudioDelegate, ContactAndVoiceMessageCellProtocol {
 
     func audioPlayStatus(status: AudioPlayerStatus) {
         ViewHelper.showToastMessage(message: status.rawValue)
+        currentVoiceCell.resetVoiceAnimation(audioPlayStatus: status)
     }
+
     func cellDidTapedVoiceButton(_ cell: VoiceMessageCVC, isPlayingVoice: Bool, index: Int) {
-        if self.currentVoiceCell != nil && self.currentVoiceCell != cell {
+        if self.currentVoiceCell == cell {
             ViewHelper.showToastMessage(message:"finished")
+            currentVoiceCell.resetVoiceAnimation(audioPlayStatus: .finished)
         }
+        
         if isPlayingVoice {
             self.currentVoiceCell = cell
-            let dataDecoded:Data = Data(base64Encoded: messages[index].file, options: Data.Base64DecodingOptions(rawValue: 0)) ?? Data()
-            AudioPlayInstance.playSoundWithPath(dataDecoded)
+            AudioPlayInstance.startPlaying(messages[index])
         } else {
             AudioPlayInstance.stopPlayer()
         }
     }
 }
+
 extension ChatVC: MessageInputAreaViewControllerDelegate {
     func sendChat(message: String?, image: UIImage?, filePath: URL?, type: Int) {
         var typeString = String()
