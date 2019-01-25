@@ -18,6 +18,8 @@ class Student: Codable {
     var profile = ""
     var fcmToken = ""
     var active = true
+    var expireDate = ""
+    var isFreeTrialAvailable = true
 
     enum CodingKeys: String, CodingKey {
         case userName
@@ -27,6 +29,9 @@ class Student: Codable {
         case profile
         case fcmToken
         case active
+        case expireDate
+        case isFreeTrialAvailable
+
     }
 
     class func buildSingle(jsonData: JSON) -> Student {
@@ -44,6 +49,8 @@ class Student: Codable {
         if jsonData["fcmToken"].exists() {
             student.fcmToken = jsonData["fcmToken"].stringValue
         }
+        student.expireDate = jsonData["expireDate"].stringValue
+        student.isFreeTrialAvailable = jsonData["freeTrial"].boolValue
 
         return student
     }

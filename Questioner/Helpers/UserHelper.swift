@@ -12,9 +12,13 @@ import Firebase
 
 @objc protocol UserDelegate: NSObjectProtocol {
     @objc optional func successfulOperation()
-    @objc optional func successfulTrial(isFreeTrial: Bool)
-    @objc optional func successfulStatusUpdate(isQuestioning: Bool, isChatting: Bool, questionType: String, conversationId: String)
     @objc optional func unsuccessfulOperation(error: String)
+    @objc optional func successfulPaymentOperation(message: String)
+    @objc optional func unsuccessfulPaymentOperation()
+    @objc optional func successfulTrial(isFreeTrialAvailable: Bool)
+    @objc optional func unsuccessfulTrial()
+    @objc optional func successfulStatusUpdate(isQuestioning: Bool, isChatting: Bool, questionType: String, conversationId: String)
+
 }
 class UserHelper {
     //let coreDataHelper = CoreDataHelper()
@@ -76,23 +80,6 @@ class UserHelper {
                     self.delegate!.unsuccessfulOperation!(error: JSON(response).stringValue)
                 }
 
-            }
-        }
-    }
-
-    func isFreeTrial(phone: String){
-        let lstParams: [String: AnyObject] = ["phone": phone as AnyObject]
-        AlamofireReq.sharedApi.sendPostReq(urlString: URLHelper.IS_FREE_TRIAL, lstParam: lstParams){
-            response, status in
-            if status{
-                let isFreeTrial = JSON(response["message"]).boolValue
-                if self.delegate.responds (to: #selector(UserDelegate.successfulTrial)) {
-                    self.delegate!.successfulTrial!(isFreeTrial: isFreeTrial)
-                }
-            } else {
-                if self.delegate.responds(to: #selector(UserDelegate.unsuccessfulOperation(error:))) {
-                    self.delegate!.unsuccessfulOperation!(error: JSON(response).stringValue)
-                }
             }
         }
     }
@@ -174,6 +161,63 @@ class UserHelper {
         }
     }
 
+    func isFreeTrialAvailable(phone: String){
+        let lstParams: [String: AnyObject] = ["phone": phone as AnyObject]
+        AlamofireReq.sharedApi.sendPostReq(urlString: URLHelper.IS_FREE_TRIAL_AVAILABLE, lstParam: lstParams){
+            response, status in
+            if status{
+                let isFreeTrialAvailable = JSON(response["message"]).boolValue
+                if self.delegate.responds (to: #selector(UserDelegate.successfulTrial)) {
+                    self.delegate!.successfulTrial!(isFreeTrialAvailable: isFreeTrialAvailable)
+                }
+            } else {
+                if self.delegate.responds(to: #selector(UserDelegate.unsuccessfulTrial)) {
+                    self.delegate!.unsuccessfulTrial!()
+                }
+            }
+        }
+    }
+
+    func setExpireDate(phone: String, expireDate: Date){
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+
+        let stringExpireDate = formatter.string(from: expireDate)
+
+        let lstParams: [String: AnyObject] = ["phone": phone as AnyObject, "expireDate": stringExpireDate as AnyObject]
+        AlamofireReq.sharedApi.sendPostReq(urlString: URLHelper.SET_EXPIRE_DATE, lstParam: lstParams) {
+            response, status in
+            if status {
+                //signup handler
+                let message = JSON(response["message"]).stringValue
+                if self.delegate.responds (to: #selector(UserDelegate.successfulPaymentOperation)) {
+                    self.delegate!.successfulPaymentOperation!(message: message)
+                }
+            }else {
+                if self.delegate.responds(to: #selector(UserDelegate.unsuccessfulOperation(error:))) {
+                    self.delegate!.unsuccessfulOperation!(error: JSON(response).stringValue)
+                }
+            }
+        }
+    }
+
+    func getExpireDate(phone: String) {
+        let lstParams: [String: AnyObject] = ["phone": phone as AnyObject]
+        AlamofireReq.sharedApi.sendPostReq(urlString: URLHelper.GET_EXPIRE_DATE, lstParam: lstParams){
+            response, status in
+            if status{
+                let message = JSON(response["message"]).stringValue
+                if self.delegate.responds (to: #selector(UserDelegate.successfulPaymentOperation)) {
+                    self.delegate!.successfulPaymentOperation!(message: message)
+                }
+            } else {
+                if self.delegate.responds(to: #selector(UserDelegate.unsuccessfulPaymentOperation)) {
+                    self.delegate!.unsuccessfulPaymentOperation!()
+                }
+            }
+        }
+    }
 
 }
 

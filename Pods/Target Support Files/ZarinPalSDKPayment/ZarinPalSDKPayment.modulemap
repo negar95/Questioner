@@ -1,0 +1,6 @@
+framework module ZarinPalSDKPayment {
+  umbrella header "ZarinPalSDKPayment-umbrella.h"
+
+  export *
+  module * { export * }
+}

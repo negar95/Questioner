@@ -15,6 +15,7 @@ target 'Questioner' do
   pod 'TGCameraViewController'
   pod 'ZarinPalSDKPayment', '~> 0.2.4'
 
+
   target 'QuestionerTests' do
     inherit! :search_paths
     # Pods for testing

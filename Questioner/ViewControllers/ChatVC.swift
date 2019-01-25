@@ -69,11 +69,13 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         messagesCollectionView.dataSource = self
 
         messageHelper.conversationId = conversationId
+
 //
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         self.getMessages()
+
         messageInputAreaVC.messageVC = self
         messageInputAreaVC.delegate = self
         addChild(messageInputAreaVC)
@@ -84,8 +86,11 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             questionView.addSubview(messageInputAreaVC.view)
         }
 
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.getMessages), userInfo: nil, repeats: true)
-
+        if !isEnd{
+            messageInputAreaVC.waitingView.isHidden = false
+            messageInputAreaVC.waitingViewIndicator.isHidden = true
+            timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.getMessages), userInfo: nil, repeats: true)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -310,7 +315,7 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
 
     @IBAction func sendRate(_ sender: Any) {
         rateConfirmBtn.isEnabled = false
-        messageHelper.sendRate(teacherId: self.teacherId, rate: floatRatingView.rating, conversationId: self.conversationId)
+        messageHelper.sendRate(teacherId: self.teacherId, rate: floatRatingView.rating * 2, conversationId: self.conversationId)
     }
 
     func sendRateSuccessfully() {

@@ -13,11 +13,27 @@ class LogoVC: UIViewController , UserDelegate{
     let userHelper = UserHelper()
     var repeatTime = 0
 
+    var stdPhone = ""
+    var stdActive = false
+
     @IBOutlet weak var logoView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         userHelper.delegate = self
         repeatTime = 0
+
+        if (defaults.object(forKey: "StudentData") != nil) {
+            let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
+            if let stdPhone = decoder?.phone,
+                let stdActive = decoder?.active {
+                self.stdPhone = stdPhone
+                self.stdActive = stdActive
+            } else {
+                self.performSegue(withIdentifier: "AfterLogoSegue", sender: self)
+            }
+        } else {
+            self.performSegue(withIdentifier: "AfterLogoSegue", sender: self)
+        }
 
         // Do any additional setup after loading the view.
 
@@ -37,20 +53,13 @@ class LogoVC: UIViewController , UserDelegate{
         flowDetector()
     }
 
+
+
     func flowDetector() {
-        if (defaults.object(forKey: "StudentData") != nil) {
-            let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
-            if let stdPhone = decoder?.phone,
-                let stdActive = decoder?.active {
-                if stdActive {
-                    userHelper.isChattingOrQuestioning(phone: stdPhone)
-                } else {
-                    ViewHelper.showToastMessage(message: "your account isn't active.")
-                    self.performSegue(withIdentifier: "AfterLogoSegue", sender: self)
-                }
-            } else {
-                self.performSegue(withIdentifier: "AfterLogoSegue", sender: self)
-            }
+        if stdActive {
+            userHelper.getExpireDate(phone: stdPhone)
+            userHelper.isFreeTrialAvailable(phone: stdPhone)
+            userHelper.isChattingOrQuestioning(phone: stdPhone)
         } else {
             self.performSegue(withIdentifier: "AfterLogoSegue", sender: self)
         }
@@ -59,6 +68,7 @@ class LogoVC: UIViewController , UserDelegate{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
     func successfulStatusUpdate(isQuestioning: Bool, isChatting: Bool, questionType: String, conversationId: String) {
         repeatTime = 0
         if isChatting {
@@ -95,9 +105,8 @@ class LogoVC: UIViewController , UserDelegate{
             SegueHelper.presentViewController(sourceViewController: self, destinationViewController: sendQVC)
         } else if (defaults.object(forKey: "StudentData") != nil) {
             let chooseCategoryVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChooseCategoryVC")
-            let nv = UINavigationController()
-            nv.viewControllers = [chooseCategoryVC]
-            present(nv, animated: true, completion: nil)
+            SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+
         } else {
             self.performSegue(withIdentifier: "AfterLogoSegue", sender: self)
         }
@@ -108,6 +117,40 @@ class LogoVC: UIViewController , UserDelegate{
         if repeatTime < 6{
             flowDetector()
         }
+    }
+
+    func successfulPaymentOperation(message: String) {
+        if (defaults.object(forKey: "StudentData") != nil) {
+            let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
+            decoder?.expireDate = message
+            let encoder = JSONEncoder()
+            if let studentData = try? encoder.encode(decoder) {
+                UserDefaults.standard.set(studentData, forKey: "StudentData")
+            }else{
+                ViewHelper.showToastMessage(message: "please try to login again!")
+            }
+            
+        }
+    }
+
+    func unsuccessfulPaymentOperation() {
+        userHelper.getExpireDate(phone: stdPhone)
+    }
+
+    func successfulTrial(isFreeTrialAvailable: Bool) {
+        if (defaults.object(forKey: "StudentData") != nil) {
+            let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
+            decoder?.isFreeTrialAvailable = isFreeTrialAvailable
+            let encoder = JSONEncoder()
+            if let studentData = try? encoder.encode(decoder) {
+                UserDefaults.standard.set(studentData, forKey: "StudentData")
+            }else{
+                ViewHelper.showToastMessage(message: "please try to login again!")
+            }
+        }
+    }
+    func unsuccessfulTrial() {
+        userHelper.isFreeTrialAvailable(phone: stdPhone)
     }
 
     /*

@@ -28,6 +28,7 @@ class Conversation: NSObject {
         }
         conversation.questionType = jsonData["questionType"].stringValue
         conversation.isEnd = jsonData["isEnd"].boolValue
+        conversation.isRated = jsonData["isRated"].boolValue
         let calendar = NSCalendar.current
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX'Z'"

@@ -31,6 +31,7 @@ class MessageInputAreaViewController: UIViewController {
     @IBOutlet weak var recordingView: UIView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var waitingView: UIView!
+    @IBOutlet weak var waitingViewIndicator: UIActivityIndicatorView!
 
     init(conversationID: String, conversationIsEnded: Bool, type: typeEnum) {
         self.conversationID = conversationID

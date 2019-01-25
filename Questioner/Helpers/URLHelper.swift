@@ -27,5 +27,9 @@ class URLHelper : NSObject {
     static let SEND_TOKEN = "soal/setfcmtoken/"
     static let IS_CHATTING = "chat/ischatting/"
     static let IS_QUESTIONING = "chat/isquestioning/"
-    static let IS_FREE_TRIAL = "soal/isfreetrial/"
+    static let IS_FREE_TRIAL_AVAILABLE = "soal/isfreetrialavailable/"
+    static let FREE_TRIAL_USED = "soal/freetrialused/"
+    static let SET_EXPIRE_DATE = "soal/setexpiredate/"
+    static let GET_EXPIRE_DATE = "soal/getexpiredate/"
+
 }

@@ -136,7 +136,9 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
     @objc func backBtnPressed(){
-        self.dismiss(animated: true, completion: nil)
+        let chooseCategoryVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChooseCategoryVC")
+        SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -232,6 +234,9 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         backBtn.isEnabled = true
 
         ViewHelper.showToastMessage(message: error)
+        indicatorView.isHidden = true
+        questionView.isHidden = false
+        backBtn.isHidden = false
     }
 
 }

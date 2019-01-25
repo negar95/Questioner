@@ -75,6 +75,8 @@ class LoginVC: UIViewController, UserDelegate, UITextFieldDelegate {
         self.indic.isHidden = true
         self.indic.stopAnimating()
 
+        userHelper.getExpireDate(phone: usernameTF.text!)
+        userHelper.isFreeTrialAvailable(phone: usernameTF.text!)
         userHelper.isChattingOrQuestioning(phone: usernameTF.text!)
     }
 
@@ -113,9 +115,8 @@ class LoginVC: UIViewController, UserDelegate, UITextFieldDelegate {
             SegueHelper.presentViewController(sourceViewController: self, destinationViewController: sendQVC)
         } else{
             let chooseCategoryVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChooseCategoryVC")
-            let nv = UINavigationController()
-            nv.viewControllers = [chooseCategoryVC]
-            present(nv, animated: true, completion: nil)
+            SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+
         }
     }
     func unsuccessfulOperation(error: String) {
@@ -126,6 +127,43 @@ class LoginVC: UIViewController, UserDelegate, UITextFieldDelegate {
         ViewHelper.showToastMessage(message: error)
     }
 
+    func successfulPaymentOperation(message: String) {
+        if (defaults.object(forKey: "StudentData") != nil) {
+            let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
+            decoder?.expireDate = message
+            let encoder = JSONEncoder()
+            if let studentData = try? encoder.encode(decoder) {
+                UserDefaults.standard.set(studentData, forKey: "StudentData")
+            }else{
+                ViewHelper.showToastMessage(message: "please try to login again!")
+            }
+        }else{
+            ViewHelper.showToastMessage(message: "please try to login again!")
+        }
+
+    }
+
+    func unsuccessfulPaymentOperation() {
+        userHelper.getExpireDate(phone: usernameTF.text!)
+    }
+
+    func successfulTrial(isFreeTrialAvailable: Bool) {
+        if (defaults.object(forKey: "StudentData") != nil) {
+            let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
+            decoder?.isFreeTrialAvailable = isFreeTrialAvailable
+            let encoder = JSONEncoder()
+            if let studentData = try? encoder.encode(decoder) {
+                UserDefaults.standard.set(studentData, forKey: "StudentData")
+            }else{
+                ViewHelper.showToastMessage(message: "please try to login again!")
+            }
+        }else{
+            ViewHelper.showToastMessage(message: "please try to login again!")
+        }
+    }
+    func unsuccessfulTrial() {
+        userHelper.isFreeTrialAvailable(phone: usernameTF.text!)
+    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == usernameTF{

@@ -51,10 +51,10 @@ class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, M
                     ViewHelper.showToastMessage(message: "your account isn't active.")
                 }
             }else{
-                ViewHelper.showToastMessage(message: "please login!")
+                ViewHelper.showToastMessage(message: "please login again!")
             }
         }else{
-            ViewHelper.showToastMessage(message: "please login!")
+            ViewHelper.showToastMessage(message: "please login again!")
         }
 
     }
@@ -94,6 +94,7 @@ class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, M
 
         chatVC.conversationId = conversation.conversationId
         chatVC.isRated = conversation.isRated
+        chatVC.isEnd = conversation.isEnd
         switch conversation.questionType {
         case "science":
             chatVC.type = .science
@@ -111,9 +112,8 @@ class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, M
 
     @objc func backBtnPressed(){
         let chooseCategoryVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChooseCategoryVC")
-        let nv = UINavigationController()
-        nv.viewControllers = [chooseCategoryVC]
-        present(nv, animated: true, completion: nil)
+        SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+
     }
     /*
      // MARK: - Navigation

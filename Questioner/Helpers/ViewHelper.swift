@@ -48,7 +48,7 @@ class ViewHelper {
         //        basketTopFrame.origin.x = 0
         
         UIView.animate(withDuration
-            :1.0, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options:UIView.AnimationOptions.curveEaseOut, animations: { () -> Void in
+            :2.0, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options:UIView.AnimationOptions.curveEaseOut, animations: { () -> Void in
                 //                label.frame = basketTopFrame
                 holder.frame = basketTopFrame
         },  completion: {
