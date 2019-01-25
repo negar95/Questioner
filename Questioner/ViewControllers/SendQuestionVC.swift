@@ -52,6 +52,9 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         questionTF.delegate = self
         messageHelper.delegate = self
 
+        questionTF.text = "Write your question here"
+        questionTF.textColor = .lightGray
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
@@ -242,6 +245,7 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 }
 
 extension SendQuestionVC: UITextViewDelegate {
+
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
