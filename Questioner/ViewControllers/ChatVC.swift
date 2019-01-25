@@ -86,9 +86,10 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         }
 
         if !isEnd{
+            timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.getMessages), userInfo: nil, repeats: true)
+        }else{
             messageInputAreaVC.waitingView.isHidden = false
             messageInputAreaVC.waitingViewIndicator.isHidden = true
-            timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.getMessages), userInfo: nil, repeats: true)
         }
     }
 
