@@ -13,7 +13,6 @@ import MobileCoreServices
 
 class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, MessageDelegate, UICollectionViewDataSource, FloatRatingViewDelegate{
 
-    @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var historyBtn: UIButton!
 
     @IBOutlet weak var questionView: UIView!
@@ -161,10 +160,7 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }
 
     func setBtnImgs(type : String) {
-        self.backBtn.setImage(UIImage(named: "\(type)BtnBack"), for: .normal)
-        self.backBtn.setImage(UIImage(named: "\(type)BtnBackPressed"), for: .highlighted)
-
-        self.historyBtn.setImage(UIImage(named: "\(type)BtnHistory"), for: .normal)
+       self.historyBtn.setImage(UIImage(named: "\(type)BtnHistory"), for: .normal)
         self.historyBtn.setImage(UIImage(named: "\(type)BtnHistoryPressed"), for: .highlighted)
 
 //        self.attachmentBtn.setImage(UIImage(named: "\(type)BtnAttachment"), for: .normal)
@@ -217,11 +213,6 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
 //        }))
 //        self.present(alert, animated: true)
 //    }
-
-
-    @IBAction func backPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
 
     func sendMessageUnsuccessfully(error: String) {
 //        sendBtn.isEnabled = true
