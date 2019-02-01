@@ -37,9 +37,9 @@ class Message: NSObject {
         message.teacherId = jsonData["teacherId"].stringValue
         message.studentId = jsonData["studentId"].stringValue
         if message.isTeacher{
-            message.name = " teacher"
+            message.name = " Teacher"
         }else{
-            message.name = " me"
+            message.name = " Me"
         }
 
         message.message = "  " + jsonData["message"].stringValue

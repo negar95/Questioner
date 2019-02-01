@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="75Q-tH-ASU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yRu-8X-7mX">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -43,7 +43,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2068" y="31.773399014778327"/>
+            <point key="canvasLocation" x="-1922" y="32"/>
         </scene>
         <!--LoginVC-->
         <scene sceneID="aV3-tV-5Zk">
@@ -351,6 +351,25 @@
                                     <action selector="changeLanguageWithSender:" destination="XNj-Dt-Rbc" eventType="touchUpInside" id="Pco-Sb-wsR"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QyS-Os-RVK">
+                                <rect key="frame" x="16" y="44" width="100" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Ljl-if-yDx"/>
+                                    <constraint firstAttribute="height" constant="40" id="V1l-Rv-Qkq"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="mathBtnHistory"/>
+                                <connections>
+                                    <segue destination="75Q-tH-ASU" kind="show" id="iCt-Qt-dmG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LJ1-0e-N1N">
+                                <rect key="frame" x="259" y="44" width="100" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="iKk-bV-p81"/>
+                                    <constraint firstAttribute="width" constant="100" id="rRP-oM-1lF"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -361,19 +380,25 @@
                             <constraint firstItem="p9x-Bo-zvG" firstAttribute="trailing" secondItem="JyX-NM-xWV" secondAttribute="trailing" constant="20" id="Wmc-1I-Lwg"/>
                             <constraint firstItem="p9x-Bo-zvG" firstAttribute="trailing" secondItem="uo0-wz-3Dr" secondAttribute="trailing" constant="38" id="Wmr-8m-i4a"/>
                             <constraint firstItem="JyX-NM-xWV" firstAttribute="top" secondItem="p9x-Bo-zvG" secondAttribute="top" constant="80" id="YAt-ha-chY"/>
+                            <constraint firstItem="LJ1-0e-N1N" firstAttribute="top" secondItem="p9x-Bo-zvG" secondAttribute="top" id="ZNn-Av-Hn7"/>
                             <constraint firstItem="JyX-NM-xWV" firstAttribute="leading" secondItem="p9x-Bo-zvG" secondAttribute="leading" constant="16" id="a3U-43-j0L"/>
                             <constraint firstItem="uo0-wz-3Dr" firstAttribute="leading" secondItem="p9x-Bo-zvG" secondAttribute="leading" constant="37" id="baE-AD-VeI"/>
+                            <constraint firstItem="QyS-Os-RVK" firstAttribute="top" secondItem="p9x-Bo-zvG" secondAttribute="top" id="bte-jT-oo3"/>
                             <constraint firstItem="UbS-ff-U9p" firstAttribute="top" secondItem="uo0-wz-3Dr" secondAttribute="bottom" id="d4P-E9-0vu"/>
                             <constraint firstItem="Nqh-R6-Zuz" firstAttribute="top" secondItem="JyX-NM-xWV" secondAttribute="bottom" constant="50" id="ddX-CD-pYH"/>
                             <constraint firstItem="O60-HK-CWK" firstAttribute="leading" secondItem="p9x-Bo-zvG" secondAttribute="leading" constant="37" id="dh6-j9-djI"/>
                             <constraint firstItem="p9x-Bo-zvG" firstAttribute="trailing" secondItem="UbS-ff-U9p" secondAttribute="trailing" constant="38" id="ftb-nZ-My2"/>
                             <constraint firstItem="p9x-Bo-zvG" firstAttribute="trailing" secondItem="O60-HK-CWK" secondAttribute="trailing" constant="38" id="ga4-9X-Qg4"/>
+                            <constraint firstItem="p9x-Bo-zvG" firstAttribute="trailing" secondItem="LJ1-0e-N1N" secondAttribute="trailing" constant="16" id="hBh-7y-EuB"/>
                             <constraint firstItem="O60-HK-CWK" firstAttribute="top" secondItem="Nqh-R6-Zuz" secondAttribute="bottom" id="plw-9L-eiQ"/>
+                            <constraint firstItem="QyS-Os-RVK" firstAttribute="leading" secondItem="p9x-Bo-zvG" secondAttribute="leading" constant="16" id="wek-RE-oFI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="p9x-Bo-zvG"/>
                     </view>
                     <connections>
                         <outlet property="engBtn" destination="uo0-wz-3Dr" id="x57-Ob-IMf"/>
+                        <outlet property="historyBtn" destination="QyS-Os-RVK" id="UdO-TG-sBJ"/>
+                        <outlet property="logoutBtn" destination="LJ1-0e-N1N" id="oOW-qX-mrg"/>
                         <outlet property="mathBtn" destination="Nqh-R6-Zuz" id="Z8C-s4-4fS"/>
                         <outlet property="scienceBtn" destination="O60-HK-CWK" id="h1e-pN-MEn"/>
                         <outlet property="toeflBtn" destination="UbS-ff-U9p" id="dKK-HD-sjJ"/>
@@ -381,7 +406,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zCw-OZ-HLP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5056.8000000000002" y="31.773399014778327"/>
+            <point key="canvasLocation" x="-804" y="978"/>
         </scene>
         <!--Send QuestionVC-->
         <scene sceneID="QIG-2k-xuw">
@@ -507,7 +532,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Htc-cB-YbJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6852" y="31.773399014778327"/>
+            <point key="canvasLocation" x="-3116" y="1881"/>
         </scene>
         <!--ChatVC-->
         <scene sceneID="Q5T-6M-Lej">
@@ -844,7 +869,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Dy-Iq-kg0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7706.3999999999996" y="31.773399014778327"/>
+            <point key="canvasLocation" x="-1922" y="1881"/>
         </scene>
         <!--HistoryVC-->
         <scene sceneID="HdA-wr-S2P">
@@ -866,7 +891,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="j6B-Jc-Fce">
-                                                    <rect key="frame" x="15" y="11" width="272.66666666666669" height="58"/>
+                                                    <rect key="frame" x="15" y="11" width="272.33333333333331" height="58"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="58" id="gvv-iL-KDy"/>
                                                     </constraints>
@@ -875,7 +900,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="s9c-3q-OWR">
-                                                    <rect key="frame" x="295.66666666666669" y="30" width="32.333333333333314" height="20"/>
+                                                    <rect key="frame" x="295.33333333333331" y="30" width="32.666666666666686" height="20"/>
                                                     <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
                                                     <color key="textColor" red="0.15686274510000001" green="0.42352941179999998" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -941,7 +966,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERi-AM-39T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8532" y="31.773399014778327"/>
+            <point key="canvasLocation" x="-804" y="1881"/>
         </scene>
         <!--ImageVC-->
         <scene sceneID="OGW-8z-9Fs">
@@ -983,7 +1008,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="65b-hw-En7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9359.2000000000007" y="31.773399014778327"/>
+            <point key="canvasLocation" x="-1922" y="978"/>
         </scene>
         <!--PaymentVC-->
         <scene sceneID="Qco-Eh-zYv">
@@ -1103,7 +1128,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iKu-cr-35w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4175" y="32"/>
+            <point key="canvasLocation" x="-3116" y="978"/>
         </scene>
         <!--Sign UpVC-->
         <scene sceneID="q0A-4o-8Dx">
@@ -1429,7 +1454,7 @@
         <!--Login Or Sign UpVC-->
         <scene sceneID="f59-7y-peJ">
             <objects>
-                <viewController id="6BA-pl-P3h" customClass="LoginOrSignUpVC" customModule="Questioner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginOrSignUpVC" id="6BA-pl-P3h" customClass="LoginOrSignUpVC" customModule="Questioner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jjv-ah-q2X">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1495,6 +1520,7 @@
         <image name="emailTextFieldIC" width="72" height="72"/>
         <image name="login" width="540" height="145"/>
         <image name="logo" width="46.080001831054688" height="46.080001831054688"/>
+        <image name="mathBtnHistory" width="159.83999633789062" height="60.479999542236328"/>
         <image name="mobileTextFieldIC" width="72" height="72"/>
         <image name="passwordTextFieldIC" width="72" height="72"/>
         <image name="paymentImg" width="352.32000732421875" height="271.67999267578125"/>
@@ -1507,4 +1533,7 @@
         <image name="typeBtn4" width="391.67999267578125" height="121.91999816894531"/>
         <image name="usernameTextFieldIC" width="72" height="72"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="iCt-Qt-dmG"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -15,6 +15,9 @@ class ChooseCategoryVC: UIViewController, UserDelegate {
     @IBOutlet weak var engBtn: UIButton!
     @IBOutlet weak var toeflBtn: UIButton!
 
+    @IBOutlet weak var historyBtn: UIButton!
+    @IBOutlet weak var logoutBtn: UIButton!
+
     let defaults = UserDefaults.standard
     let userHelper = UserHelper()
 
@@ -31,6 +34,11 @@ class ChooseCategoryVC: UIViewController, UserDelegate {
         engBtn.setImage(UIImage(named: "typeBtnPressed3"), for: .highlighted)
         toeflBtn.setImage(UIImage(named: "typeBtnPressed4"), for: .highlighted)
 
+        historyBtn.setImage(UIImage(named: "mathBtnHistoryPressed"), for: .highlighted)
+
+        historyBtn.addTarget(self, action: #selector(gotoHistory), for: .touchUpInside)
+        logoutBtn.addTarget(self, action: #selector(logout), for: .touchUpInside)
+
         mathBtn.tag = 1
         scienceBtn.tag = 2
         engBtn.tag = 3
@@ -46,6 +54,19 @@ class ChooseCategoryVC: UIViewController, UserDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    @objc func logout(){
+        UserDefaults.standard.set(nil, forKey: "StudentData")
+
+        let loginOrSignUpVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "LoginOrSignUpVC") as! LoginOrSignUpVC
+        SegueHelper.presentViewController(sourceViewController: self, destinationViewController: loginOrSignUpVC)
+
+    }
+
+    @objc func gotoHistory(){
+        let historyVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "HistoryVC") as! HistoryVC
+        SegueHelper.presentViewController(sourceViewController: self, destinationViewController: historyVC)
     }
 
     func checkExpireDate() -> Bool {
