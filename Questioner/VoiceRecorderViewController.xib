@@ -15,7 +15,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VoiceRecorderViewController" customModule="Divar" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VoiceRecorderViewController" customModule="Questioner" customModuleProvider="target">
             <connections>
                 <outlet property="blinkingView" destination="RVZ-yS-4JZ" id="oKs-kx-GRD"/>
                 <outlet property="duration" destination="q68-O7-qOn" id="wr8-xz-qVG"/>
@@ -25,17 +25,17 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="fc9-rm-My3">
-            <rect key="frame" x="0.0" y="0.0" width="327" height="42"/>
+            <rect key="frame" x="0.0" y="0.0" width="327" height="100"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="adfafa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q68-O7-qOn">
-                    <rect key="frame" x="32" y="8" width="45.5" height="26"/>
+                    <rect key="frame" x="32" y="8" width="45" height="84"/>
                     <fontDescription key="fontDescription" name="IRANSans-Light" family="IRANSans" pointSize="16"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.87" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVZ-yS-4JZ">
-                    <rect key="frame" x="16" y="17" width="8" height="8"/>
+                    <rect key="frame" x="16" y="46" width="8" height="8"/>
                     <color key="backgroundColor" red="1" green="0.024170271515557173" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="8" id="V2r-0z-wPw"/>
@@ -43,7 +43,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aWR-YL-JHe">
-                    <rect key="frame" x="295" y="9" width="24" height="24"/>
+                    <rect key="frame" x="295" y="38" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="24" id="7Jp-ae-dBU"/>
                         <constraint firstAttribute="height" constant="24" id="9oP-Nd-pbC"/>
@@ -67,10 +67,10 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="TA3-xV-kda"/>
-            <point key="canvasLocation" x="79" y="-161"/>
+            <point key="canvasLocation" x="77.599999999999994" y="-134.93253373313345"/>
         </view>
     </objects>
     <resources>
-        <image name="deleteVoice" width="48" height="48"/>
+        <image name="deleteVoice" width="75" height="75"/>
     </resources>
 </document>

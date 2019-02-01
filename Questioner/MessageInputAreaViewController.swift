@@ -26,12 +26,12 @@ class MessageInputAreaViewController: UIViewController {
     
     @IBOutlet var textView: UITextView!
     @IBOutlet weak var sendButtonBackground: UIView!
-    @IBOutlet weak var sendButtonImage: UIImageView!
     @IBOutlet weak var textViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var recordingView: UIView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var waitingView: UIView!
     @IBOutlet weak var waitingViewIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var imageButton: UIButton!
 
     init(conversationID: String, conversationIsEnded: Bool, type: typeEnum) {
         self.conversationID = conversationID
@@ -47,21 +47,32 @@ class MessageInputAreaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.waitingView.isHidden = true
+
+        self.view.backgroundColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 0.2)
         
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderColor = UIColor.darkGray.cgColor
         textView.layer.borderWidth = 1
         textView.textContainerInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+
         let tapgesture = UITapGestureRecognizer(target: self, action: #selector(sendMessage(_:)))
         let longgesture = UILongPressGestureRecognizer(target: self, action: #selector(startRecording(_:)))
         
         longgesture.delegate = self
         sendButton.addGestureRecognizer(tapgesture)
         sendButton.addGestureRecognizer(longgesture)
+
         if !conversationIsEnd {
             sendButton.isEnabled = true
         } else {
             sendButton.isEnabled = false
         }
+
+        self.sendButton.setImage(UIImage(named:"\(type.toString)BtnVoice"), for: .normal)
+        self.sendButton.setImage(UIImage(named:"\(type.toString)BtnVoicePressed"), for: .highlighted)
+
+        self.imageButton.setImage(UIImage(named:"\(type.toString)BtnImg"), for: .normal)
+        self.imageButton.setImage(UIImage(named:"\(type.toString)BtnImgPressed"), for: .highlighted)
+
     }
     
     @IBAction func showAttachOptions() {
@@ -69,27 +80,33 @@ class MessageInputAreaViewController: UIViewController {
     }
     
     @objc func sendMessage(_ sender: UIGestureRecognizer) {
-        if !conversationIsEnd {
-            if !isRecording, recordingViewController != nil {
-                recordingViewController!.saveAudio()
-                isRecording = false
-                return
-            } else if isRecording, recordingViewController != nil {
-                self.stopRecording()
-                return
-            } else if textView.text.isEmpty { return }
-            
-            let message = Message()
-            message.message = textView.text.trimmingCharacters(in: CharacterSet.whitespaces)
-            if message.message.count > 1000 {
-                return
+        if Connectivity.isConnectedToInternet(){
+            if !conversationIsEnd {
+                if !isRecording, recordingViewController != nil {
+                    recordingViewController!.saveAudio()
+                    isRecording = false
+                    return
+                } else if isRecording, recordingViewController != nil {
+                    self.stopRecording()
+                    return
+                } else if textView.text.isEmpty { return }
+
+                let message = Message()
+                message.message = textView.text.trimmingCharacters(in: CharacterSet.whitespaces)
+                if message.message.count > 1000 {
+                    return
+                }
+
+                textView.text = ""
+                textViewDidChange(textView)
+                delegate?.sendChat(message: message.message, image: nil, filePath: nil, type: 0)
+            } else {
+                ViewHelper.showToastMessage(message: "The Conversation Is Ended")
             }
-            
-            textView.text = ""
-            textViewDidChange(textView)
-            delegate?.sendChat(message: message.message, image: nil, filePath: nil, type: 0)
-        } else {
-            ViewHelper.showToastMessage(message: "The Conversation Is Ended")
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
@@ -136,13 +153,13 @@ extension MessageInputAreaViewController {
 
 extension MessageInputAreaViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text.count == 0 { delegate?.adjustInputAreaHeightConstraint(height: 50)
+        if textView.text.count == 0 { delegate?.adjustInputAreaHeightConstraint(height: 100)
             self.changeConstraintOfTextView(shouldGrow: false); return }
         let newSize = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
         if newSize.height > 100 {
             textView.isScrollEnabled = true
         } else {
-            delegate?.adjustInputAreaHeightConstraint(height: max(50, newSize.height + 12))
+            delegate?.adjustInputAreaHeightConstraint(height: max(100, newSize.height + 12))
             textView.isScrollEnabled = false
         }
         if textView.text.count > 0 {
@@ -151,8 +168,8 @@ extension MessageInputAreaViewController: UITextViewDelegate {
     }
     
     func changeConstraintOfTextView(shouldGrow: Bool) {
-        textViewLeftConstraint.constant = shouldGrow ? 4 : 40
-        self.changeBackgroundAnPictureOfTheSendButton(backGroundColor: shouldGrow ? .white : .red, pictureName: shouldGrow ? "send" : "mic")
+        textViewLeftConstraint.constant = shouldGrow ? 6 : 62
+        self.changeBackgroundAnPictureOfTheSendButton(backGroundColor: shouldGrow ? .clear : .white, pictureName: shouldGrow ? "BtnSend" : "BtnVoice")
     }
 }
 
@@ -170,7 +187,7 @@ extension MessageInputAreaViewController: UIGestureRecognizerDelegate, AudioReco
         if recordingViewController != nil {
             recordingViewController!.cleanup()
             recordingViewController = nil
-            self.changeBackgroundAnPictureOfTheSendButton(backGroundColor: .red, pictureName: "mic")
+            self.changeBackgroundAnPictureOfTheSendButton(backGroundColor: .white, pictureName: "BtnVoice")
             recordingView.alpha = 0
         }
     }
@@ -180,7 +197,7 @@ extension MessageInputAreaViewController: UIGestureRecognizerDelegate, AudioReco
             self.sendButtonBackground.transform = .init(scaleX: 1, y: 1)
         }, completion: { _ in
             if self.recordingViewController != nil && self.recordingViewController?.duration.text != "" {
-                self.changeBackgroundAnPictureOfTheSendButton(backGroundColor: .white, pictureName: "send")
+                self.changeBackgroundAnPictureOfTheSendButton(backGroundColor: .clear, pictureName: "BtnSend")
                 self.recordingViewController!.stopRecording()
                 self.isRecording = false
             } else {
@@ -191,15 +208,33 @@ extension MessageInputAreaViewController: UIGestureRecognizerDelegate, AudioReco
     }
     
     func changeBackgroundAnPictureOfTheSendButton(backGroundColor: UIColor, pictureName: String) {
-        self.sendButtonImage.image = UIImage(named: "\(pictureName)")
-        self.sendButtonBackground.backgroundColor = backGroundColor
+
+        let imgName = "\(type.toString)" + pictureName
+        let pressedImgName = "\(type.toString)" + pictureName + "Pressed"
+
+        self.sendButton.setImage(UIImage(named:imgName), for: .normal)
+        self.sendButton.setImage(UIImage(named:pressedImgName), for: .highlighted)
+
+        //backgroundColor change by type
+        switch type {
+        case .english:
+            self.sendButtonBackground.backgroundColor = UIColor("#f1dda499")
+        case .math:
+            self.sendButtonBackground.backgroundColor = UIColor("#c2de9c99")
+        case .science:
+            self.sendButtonBackground.backgroundColor = UIColor("#c5c9f399")
+        case .toefl:
+            self.sendButtonBackground.backgroundColor = UIColor("#a7cdee99")
+        default:
+            break
+        }
     }
     
     @objc func startRecording(_ sender: UIGestureRecognizer) {
         if sender.state == .possible {
             if textView.text.isEmpty {
                 UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
-                    self.sendButtonBackground.transform = .init(scaleX: 4, y: 4)
+                    self.sendButtonBackground.transform = .init(scaleX: 2, y: 2)
                 }, completion: { finished in
                     if finished {
                         self.recordingViewController = VoiceRecorderViewController(size: self.recordingView.frame.width)

@@ -35,6 +35,7 @@ class ChooseCategoryVC: UIViewController, UserDelegate {
         toeflBtn.setImage(UIImage(named: "typeBtnPressed4"), for: .highlighted)
 
         historyBtn.setImage(UIImage(named: "mathBtnHistoryPressed"), for: .highlighted)
+        logoutBtn.setImage(UIImage(named: "logoutBtnPressed"), for: .highlighted)
 
         historyBtn.addTarget(self, action: #selector(gotoHistory), for: .touchUpInside)
         logoutBtn.addTarget(self, action: #selector(logout), for: .touchUpInside)

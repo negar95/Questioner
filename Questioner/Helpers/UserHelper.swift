@@ -13,11 +13,15 @@ import Firebase
 @objc protocol UserDelegate: NSObjectProtocol {
     @objc optional func successfulOperation()
     @objc optional func unsuccessfulOperation(error: String)
+
     @objc optional func successfulPaymentOperation(message: String)
     @objc optional func unsuccessfulPaymentOperation()
+
     @objc optional func successfulTrial(isFreeTrialAvailable: Bool)
     @objc optional func unsuccessfulTrial()
+
     @objc optional func successfulStatusUpdate(isQuestioning: Bool, isChatting: Bool, questionType: String, conversationId: String)
+    @objc optional func unsuccessfulStatusUpdate(error: String)
 
 }
 class UserHelper {
@@ -69,8 +73,8 @@ class UserHelper {
                                 }
                             }
                         }else{
-                            if self.delegate.responds(to: #selector(UserDelegate.unsuccessfulOperation(error:))) {
-                                self.delegate!.unsuccessfulOperation!(error: JSON(response).stringValue)
+                            if self.delegate.responds(to: #selector(UserDelegate.unsuccessfulStatusUpdate(error:))) {
+                                self.delegate!.unsuccessfulStatusUpdate!(error: JSON(response).stringValue)
                             }
                         }
                     }
@@ -84,8 +88,31 @@ class UserHelper {
         }
     }
 
+    func setFCMToken(phone: String) {
+        if let token = self.defaults.string(forKey: "Token") {
+
+            let lstParams: [String: AnyObject] = ["phone": phone as AnyObject, "fcmToken": token as AnyObject, "deviceName": UIDevice.current.name as AnyObject, "deviceId": UIDevice.current.identifierForVendor!.uuidString as AnyObject]
+            AlamofireReq.sharedApi.sendPostReq(urlString: URLHelper.SEND_TOKEN, lstParam: lstParams) {
+                response, status in
+                if status {
+                    if self.delegate.responds (to: #selector(UserDelegate.successfulOperation)) {
+                        self.delegate!.successfulOperation!()
+                    }
+                } else {
+                    if self.delegate.responds(to: #selector(UserDelegate.unsuccessfulOperation(error:))) {
+                        self.delegate!.unsuccessfulOperation!(error: JSON(response).stringValue)
+                    }
+                }
+            }
+        }else{
+            if self.delegate.responds(to: #selector(UserDelegate.unsuccessfulOperation(error:))) {
+                self.delegate!.unsuccessfulOperation!(error: "token isn't set")
+            }
+        }
+    }
+
     func login(phone: String, password: String) {
-        let lstParams: [String: AnyObject] = ["phone": phone as AnyObject, "password": password as AnyObject, "fcmToken": Messaging.messaging().fcmToken as AnyObject]
+        let lstParams: [String: AnyObject] = ["phone": phone as AnyObject, "password": password as AnyObject]
         AlamofireReq.sharedApi.sendPostReq(urlString: URLHelper.LOGIN_SOAL, lstParam: lstParams) {
             response, status in
             if status {

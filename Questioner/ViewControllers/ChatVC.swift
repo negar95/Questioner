@@ -93,8 +93,21 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         }
     }
 
+    func checkNet() {
+        if !Connectivity.isConnectedToInternet() {
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok!", style: .default) {
+                UIAlertAction in
+                self.checkNet()
+            }
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        checkNet()
         let contentSize: CGSize? = messagesCollectionView?.collectionViewLayout.collectionViewContentSize
         if (messagesCollectionView?.bounds.size.height.isLess(than: (contentSize?.height)!))! {
             let targetContentOffset = CGPoint(x: 0.0, y: (contentSize?.height)! - (messagesCollectionView?.bounds.size.height)!)
@@ -220,7 +233,11 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
 //        imageBtn.isEnabled = true
 //        attachmentBtn.isEnabled = true
 
-        ViewHelper.showToastMessage(message: error)
+        if error == ""{
+            checkNet()
+        }else{
+            ViewHelper.showToastMessage(message: error)
+        }
 
     }
 
@@ -247,7 +264,11 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }
 
     func getMessagesUnsuccessfully(error: String) {
-        ViewHelper.showToastMessage(message: error)
+        if error == ""{
+            checkNet()
+        }else{
+            ViewHelper.showToastMessage(message: error)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -306,8 +327,14 @@ class ChatVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }
 
     @IBAction func sendRate(_ sender: Any) {
-        rateConfirmBtn.isEnabled = false
-        messageHelper.sendRate(teacherId: self.teacherId, rate: floatRatingView.rating * 2, conversationId: self.conversationId)
+        if Connectivity.isConnectedToInternet(){
+            rateConfirmBtn.isEnabled = false
+            messageHelper.sendRate(teacherId: self.teacherId, rate: floatRatingView.rating * 2, conversationId: self.conversationId)
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
     func sendRateSuccessfully() {

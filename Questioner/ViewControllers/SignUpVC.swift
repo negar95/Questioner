@@ -65,21 +65,28 @@ class SignUpVC: UIViewController, UserDelegate, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func signUpPressed(_ sender: Any) {
-        signUpBtn.isEnabled = false
-        if phoneNumber.text?.count == 11 && phoneNumber.text != nil && email.text != nil && name.text != nil {
-            if pass.text != nil && repeatpass.text != nil && pass.text == repeatpass.text {
+        if Connectivity.isConnectedToInternet(){
 
-                self.indic.isHidden = false
-                self.indic.startAnimating()
-                
-                userHelper.signup(userName: name.text!, password: pass.text!, phone: phoneNumber.text!, email: email.text!)
-            }else {
-                ViewHelper.showToastMessage(message: "Passwords should match")
+            signUpBtn.isEnabled = false
+            if phoneNumber.text?.count == 11 && phoneNumber.text != nil && email.text != nil && name.text != nil {
+                if pass.text != nil && repeatpass.text != nil && pass.text == repeatpass.text {
+
+                    self.indic.isHidden = false
+                    self.indic.startAnimating()
+                    
+                    userHelper.signup(userName: name.text!, password: pass.text!, phone: phoneNumber.text!, email: email.text!)
+                }else {
+                    ViewHelper.showToastMessage(message: "Passwords should match")
+                    signUpBtn.isEnabled = true
+                }
+            } else {
+                ViewHelper.showToastMessage(message: "All fields are required")
                 signUpBtn.isEnabled = true
             }
-        } else {
-            ViewHelper.showToastMessage(message: "All fields are required")
-            signUpBtn.isEnabled = true
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
     func successfulOperation() {

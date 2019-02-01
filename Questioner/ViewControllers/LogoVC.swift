@@ -22,6 +22,7 @@ class LogoVC: UIViewController , UserDelegate{
         userHelper.delegate = self
         repeatTime = 0
 
+
         if (defaults.object(forKey: "StudentData") != nil) {
             let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
             if let stdPhone = decoder?.phone,
@@ -39,6 +40,20 @@ class LogoVC: UIViewController , UserDelegate{
 
     }
 
+    func checks() {
+        if Connectivity.isConnectedToInternet(){
+            flowDetector()
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok!", style: .default) {
+                UIAlertAction in
+                self.checks()
+            }
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
 
         UIView.animate(withDuration: 1, delay: 2, options: .curveEaseOut, animations: {
@@ -48,9 +63,8 @@ class LogoVC: UIViewController , UserDelegate{
     }
 
     override func viewDidAppear(_ animated: Bool) {
-
         sleep(3)
-        flowDetector()
+        checks()
     }
 
 
@@ -60,6 +74,7 @@ class LogoVC: UIViewController , UserDelegate{
             userHelper.getExpireDate(phone: stdPhone)
             userHelper.isFreeTrialAvailable(phone: stdPhone)
             userHelper.isChattingOrQuestioning(phone: stdPhone)
+            userHelper.setFCMToken(phone: stdPhone)
         } else {
             self.performSegue(withIdentifier: "AfterLogoSegue", sender: self)
         }
@@ -111,15 +126,19 @@ class LogoVC: UIViewController , UserDelegate{
             self.performSegue(withIdentifier: "AfterLogoSegue", sender: self)
         }
     }
-    func unsuccessfulOperation(error: String) {
-        ViewHelper.showToastMessage(message: error)
+
+    func unsuccessfulStatusUpdate(error: String) {
         repeatTime += 1
         if repeatTime < 6{
-            flowDetector()
+            userHelper.isChattingOrQuestioning(phone: stdPhone)
+        } else if repeatTime == 6{
+            ViewHelper.showToastMessage(message: error)
+            repeatTime = 0
         }
     }
 
     func successfulPaymentOperation(message: String) {
+        repeatTime = 0
         if (defaults.object(forKey: "StudentData") != nil) {
             let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
             decoder?.expireDate = message
@@ -129,15 +148,20 @@ class LogoVC: UIViewController , UserDelegate{
             }else{
                 ViewHelper.showToastMessage(message: "please try to login again!")
             }
-            
         }
     }
 
     func unsuccessfulPaymentOperation() {
-        userHelper.getExpireDate(phone: stdPhone)
+        repeatTime += 1
+        if repeatTime < 6{
+            userHelper.getExpireDate(phone: stdPhone)
+        } else if repeatTime == 6{
+            repeatTime = 0
+        }
     }
 
     func successfulTrial(isFreeTrialAvailable: Bool) {
+        repeatTime = 0
         if (defaults.object(forKey: "StudentData") != nil) {
             let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
             decoder?.isFreeTrialAvailable = isFreeTrialAvailable
@@ -150,7 +174,26 @@ class LogoVC: UIViewController , UserDelegate{
         }
     }
     func unsuccessfulTrial() {
-        userHelper.isFreeTrialAvailable(phone: stdPhone)
+        repeatTime += 1
+        if repeatTime < 6{
+            userHelper.isFreeTrialAvailable(phone: stdPhone)
+        } else if repeatTime == 6{
+            repeatTime = 0
+        }
+    }
+
+    func successfulOperation() {
+        repeatTime = 0
+    }
+
+    func unsuccessfulOperation(error: String) {
+        repeatTime += 1
+        if repeatTime < 6{
+            userHelper.setFCMToken(phone: stdPhone)
+        } else if repeatTime == 6{
+            ViewHelper.showToastMessage(message: error)
+            repeatTime = 0
+        }
     }
 
     /*

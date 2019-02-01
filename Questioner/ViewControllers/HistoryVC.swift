@@ -17,6 +17,7 @@ class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, M
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var conversationsTable: UITableView!
+    @IBOutlet weak var noConversationView: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +32,29 @@ class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, M
         conversationsTable.delegate = self
         conversationsTable.dataSource = self
         conversationsTable.isHidden = true
+
         messageHelper.delegate = self
-        self.getConversations()
+
+        noConversationView.isHidden = true
+        noConversationView.layer.masksToBounds = true
+        noConversationView.layer.cornerRadius = 20
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.checkNet()
+    }
+
+    func checkNet() {
+        if Connectivity.isConnectedToInternet(){
+            self.getConversations()
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok!", style: .default) {
+                UIAlertAction in
+                self.checkNet()
+            }
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,11 +82,18 @@ class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, M
     }
 
     func getConversationsSuccessfully(conversations: [Conversation]) {
-        self.conversations = conversations
-        conversationsTable.reloadData()
+        if conversations.count > 0 {
+            noConversationView.isHidden = true
+            self.conversations = conversations
+            conversationsTable.reloadData()
+            conversationsTable.isHidden = false
+
+        }else{
+            noConversationView.isHidden = false
+        }
+
         indicator.isHidden = true
         indicator.stopAnimating()
-        conversationsTable.isHidden = false
     }
 
     func getMessagesUnsuccessfully(error: String) {

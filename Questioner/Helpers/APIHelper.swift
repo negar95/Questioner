@@ -10,6 +10,11 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+class Connectivity {
+    class func isConnectedToInternet() -> Bool {
+        return NetworkReachabilityManager()!.isReachable
+    }
+}
 
 class AlamofireReq: NSObject {
     let BASE_URL = "http://178.63.114.19:2020/"

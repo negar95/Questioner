@@ -138,43 +138,62 @@ class PaymentVC: UIViewController, ZarinPalPaymentDelegate, UserDelegate {
     @objc func freeTrialUsed(sender: UIButton){
         indicatorBackView.isHidden = false
 
-        let date = Date()
-        var dateComponent = DateComponents()
-        dateComponent.day = 8
-
-        expireDate = Calendar.current.date(byAdding: dateComponent, to: date)!
-        userHelper.setExpireDate(phone: phone, expireDate: expireDate)
-
+        if Connectivity.isConnectedToInternet(){
+            let date = Date()
+            var dateComponent = DateComponents()
+            dateComponent.day = 8
+            expireDate = Calendar.current.date(byAdding: dateComponent, to: date)!
+            userHelper.setExpireDate(phone: phone, expireDate: expireDate)
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
     }
 
     @objc func firstBtnFunction(sender: UIButton) {
         indicatorBackView.isHidden = false
 
-        let zarinpal = ZarinPal.Builder(vc: self, merchantID: "783b49c8-4485-11e7-bb64-000c295eb8fc", amount: firstAmount, description: "description");
+        if Connectivity.isConnectedToInternet(){
 
-        zarinpal.indicatorColor = UIColor.white; //this set indicator color *optional
-        zarinpal.title = "Payment Gateway"; //this set title of payment page *optional
-        zarinpal.pageBackgroundColor = UIColor.lightGray; // this set background payment color *optional
-        zarinpal.email = "farzad.shadafza@gmail.com"; //this set email *optional
-        zarinpal.mobile = "09123800378"; //this set mobile *optional
-        zarinpal
-            .build()
-            .start(delegate: self)
+            let zarinpal = ZarinPal.Builder(vc: self, merchantID: "783b49c8-4485-11e7-bb64-000c295eb8fc", amount: firstAmount, description: "description");
+
+            zarinpal.indicatorColor = UIColor.white; //this set indicator color *optional
+            zarinpal.title = "Payment Gateway"; //this set title of payment page *optional
+            zarinpal.pageBackgroundColor = UIColor.lightGray; // this set background payment color *optional
+            zarinpal.email = "farzad.shadafza@gmail.com"; //this set email *optional
+            zarinpal.mobile = "09123800378"; //this set mobile *optional
+            zarinpal
+                .build()
+                .start(delegate: self)
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+
     }
 
     @objc func secondBtnFunction(sender: UIButton) {
         indicatorBackView.isHidden = false
 
-        let zarinpal = ZarinPal.Builder(vc: self, merchantID: "783b49c8-4485-11e7-bb64-000c295eb8fc", amount: secondAmount, description: "description");
+        if Connectivity.isConnectedToInternet(){
+            let zarinpal = ZarinPal.Builder(vc: self, merchantID: "783b49c8-4485-11e7-bb64-000c295eb8fc", amount: secondAmount, description: "description");
 
-        zarinpal.indicatorColor = UIColor.white; //this set indicator color *optional
-        zarinpal.title = "Payment Gateway"; //this set title of payment page *optional
-        zarinpal.pageBackgroundColor = UIColor.lightGray; // this set background payment color *optional
-        zarinpal.email = "farzad.shadafza@gmail.com"; //this set email *optional
-        zarinpal.mobile = "09123800378"; //this set mobile *optional
-        zarinpal
-            .build()
-            .start(delegate: self)
+            zarinpal.indicatorColor = UIColor.white; //this set indicator color *optional
+            zarinpal.title = "Payment Gateway"; //this set title of payment page *optional
+            zarinpal.pageBackgroundColor = UIColor.lightGray; // this set background payment color *optional
+            zarinpal.email = "farzad.shadafza@gmail.com"; //this set email *optional
+            zarinpal.mobile = "09123800378"; //this set mobile *optional
+            zarinpal
+                .build()
+                .start(delegate: self)
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
     func successfulPaymentOperation(message: String) {

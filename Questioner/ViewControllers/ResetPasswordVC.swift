@@ -54,16 +54,22 @@ class ResetPasswordVC: UIViewController, UserDelegate, UITextFieldDelegate {
     }
 
     @IBAction func reset(_ sender: Any) {
-        resetBtn.isEnabled = false
+        if Connectivity.isConnectedToInternet(){
+            resetBtn.isEnabled = false
 
-        if password1TF.text != nil && password1TF.text?.count == 11 && password2TF != nil {
-            self.indic.isHidden = false
-            indic.startAnimating()
-            userHelper.resetPass(phone: password1TF.text!, password: password2TF.text!)
-            
-        }else {
-            
-            ViewHelper.showToastMessage(message: "All fields required to fill correctly")
+            if password1TF.text != nil && password1TF.text?.count == 11 && password2TF != nil {
+                self.indic.isHidden = false
+                indic.startAnimating()
+                userHelper.resetPass(phone: password1TF.text!, password: password2TF.text!)
+
+            }else {
+
+                ViewHelper.showToastMessage(message: "All fields required to fill correctly")
+            }
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
         
     }

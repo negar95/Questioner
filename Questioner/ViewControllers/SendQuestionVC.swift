@@ -203,10 +203,17 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                         sendBtn.isEnabled = true
                         backBtn.isEnabled = true
                     }else{
-                        messageHelper.sendQuestion(studentId: stdPhone, message: questionTF.text!, type: type.toString)
-                        questionView.isHidden = true
-                        backBtn.isHidden = true
-                        indicatorView.isHidden = false
+                        if Connectivity.isConnectedToInternet(){
+                            messageHelper.sendQuestion(studentId: stdPhone, message: questionTF.text!, type: type.toString)
+                            questionView.isHidden = true
+                            backBtn.isHidden = true
+                            indicatorView.isHidden = false
+                        }else{
+                            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                        }
+
                     }
                 }else{
                     ViewHelper.showToastMessage(message: "your account isn't active.")

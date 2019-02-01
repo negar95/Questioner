@@ -59,15 +59,22 @@ class LoginVC: UIViewController, UserDelegate, UITextFieldDelegate {
     }
 
     @IBAction func loginPressed(_ sender: Any) {
-        loginBtn.isEnabled = false
+        if Connectivity.isConnectedToInternet(){
+            loginBtn.isEnabled = false
 
-        if usernameTF.text != nil && passwordTF.text != nil {
-            self.indic.isHidden = false
-            self.indic.startAnimating()
-            userHelper.login(phone: usernameTF.text!, password: passwordTF.text!)
-        } else {
-            ViewHelper.showToastMessage(message: "All fields are required")
+            if usernameTF.text != nil && passwordTF.text != nil {
+                self.indic.isHidden = false
+                self.indic.startAnimating()
+                userHelper.login(phone: usernameTF.text!, password: passwordTF.text!)
+            } else {
+                ViewHelper.showToastMessage(message: "All fields are required")
+            }
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
+
     }
     func successfulOperation() {
         loginBtn.isEnabled = true
