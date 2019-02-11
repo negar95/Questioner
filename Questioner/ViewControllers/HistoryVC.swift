@@ -8,10 +8,11 @@
 
 import UIKit
 
-class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, MessageDelegate{
+class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, MessageDelegate, UserDelegate{
 
     let defaults = UserDefaults.standard
     let messageHelper = MessageHelper()
+    let userHelper = UserHelper()
     var conversations = [Conversation()]
 
     @IBOutlet weak var backBtn: UIButton!
@@ -34,6 +35,7 @@ class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, M
         conversationsTable.isHidden = true
 
         messageHelper.delegate = self
+        userHelper.delegate = self
 
         noConversationView.isHidden = true
         noConversationView.layer.masksToBounds = true
@@ -140,10 +142,75 @@ class HistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, M
     }
 
     @objc func backBtnPressed(){
-        let chooseCategoryVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChooseCategoryVC")
-        SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+        if Connectivity.isConnectedToInternet(){
+            let chooseCategoryVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChooseCategoryVC")
+
+            if (defaults.object(forKey: "StudentData") != nil) {
+                let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
+                if let stdPhone = decoder?.phone{
+                    userHelper.isChattingOrQuestioning(phone: stdPhone)
+                } else {
+                    SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+                }
+            } else {
+                SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+            }
+
+        }else{
+            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok!", style: .default) {
+                UIAlertAction in
+            }
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+
+
 
     }
+    func successfulStatusUpdate(isQuestioning: Bool, isChatting: Bool, questionType: String, conversationId: String) {
+        if isChatting{
+            let chatVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChatVC") as! ChatVC
+            chatVC.conversationId = conversationId
+            switch questionType {
+            case "science":
+                chatVC.type = .science
+            case "math":
+                chatVC.type = .math
+            case "english":
+                chatVC.type = .english
+            case "toefl":
+                chatVC.type = .toefl
+            default:
+                break
+            }
+            SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chatVC)
+        } else if isQuestioning {
+            let sendQVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "SendQuestionVC") as! SendQuestionVC
+            switch questionType {
+            case "science":
+                sendQVC.type = .science
+            case "math":
+                sendQVC.type = .math
+            case "english":
+                sendQVC.type = .english
+            case "toefl":
+                sendQVC.type = .toefl
+            default:
+                break
+            }
+            sendQVC.isSearching = true
+            SegueHelper.presentViewController(sourceViewController: self, destinationViewController: sendQVC)
+        }else{
+            let chooseCategoryVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChooseCategoryVC")
+            SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+        }
+    }
+    func unsuccessfulStatusUpdate(error: String) {
+        let chooseCategoryVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChooseCategoryVC")
+        SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chooseCategoryVC)
+    }
+
     /*
      // MARK: - Navigation
 
