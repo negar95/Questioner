@@ -33,6 +33,12 @@ class SignUpVC: UIViewController, UserDelegate, UITextFieldDelegate {
         self.hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
 
+        name.delegate = self
+        email.delegate = self
+        phoneNumber.delegate = self
+        pass.delegate = self
+        repeatpass.delegate = self
+
         self.conditionsView.addBackground(imageName: "background3", contentMode: .scaleAspectFill)
 
     }
@@ -65,30 +71,45 @@ class SignUpVC: UIViewController, UserDelegate, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func signUpPressed(_ sender: Any) {
-        if Connectivity.isConnectedToInternet(){
-
-            signUpBtn.isEnabled = false
-            if phoneNumber.text?.count == 11 && phoneNumber.text != nil && email.text != nil && name.text != nil {
-                if pass.text != nil && repeatpass.text != nil && pass.text == repeatpass.text {
-
-                    self.indic.isHidden = false
-                    self.indic.startAnimating()
-                    
-                    userHelper.signup(userName: name.text!, password: pass.text!, phone: phoneNumber.text!, email: email.text!)
-                }else {
-                    ViewHelper.showToastMessage(message: "Passwords should match")
-                    signUpBtn.isEnabled = true
-                }
-            } else {
-                ViewHelper.showToastMessage(message: "All fields are required")
-                signUpBtn.isEnabled = true
+        if validationCheck(){
+            if Connectivity.isConnectedToInternet(){
+                self.indic.isHidden = false
+                self.indic.startAnimating()
+            }else{
+                let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
-        }else{
-            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
         }
     }
+
+    func validationCheck() -> Bool {
+        var valid = true
+
+        if phoneNumber.text == nil || email.text == nil || name.text == nil || pass.text == nil || repeatpass.text == nil {
+            ViewHelper.showToastMessage(message: "All fields are required")
+            valid = false
+        }else{
+            if pass.text != repeatpass.text {
+                ViewHelper.showToastMessage(message: "Passwords should match")
+                valid = false
+            }
+            if !ValidationHelper.validateName(name: name.text!){
+                ViewHelper.showToastMessage(message: "Please enter a valid name")
+                valid = false
+            }
+            if !ValidationHelper.validateEmail(email: email.text!){
+                ViewHelper.showToastMessage(message: "Please enter a valid email")
+                valid = false
+            }
+            if !ValidationHelper.validateCellPhone(phone: phoneNumber.text!){
+                ViewHelper.showToastMessage(message: "Please enter a valid phone")
+                valid = false
+            }
+        }
+        return valid
+    }
+
     func successfulOperation() {
         signUpBtn.isEnabled = true
 

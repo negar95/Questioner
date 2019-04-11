@@ -42,7 +42,11 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var type = typeEnum.math
 
     var isSearching = false
+    var repeatTime = 0
+    var stdPhone = ""
 
+    let defaults = UserDefaults.standard
+    let userHelper = UserHelper()
     var messageHelper = MessageHelper()
 
     override func viewDidLoad() {
@@ -54,6 +58,7 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
         questionTF.text = "Write your question here"
         questionTF.textColor = .lightGray
+        stdPhone = getStdPhone()
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -66,6 +71,10 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.isNavigationBarHidden = false
+
+        if stdPhone != ""{
+            userHelper.isChattingOrQuestioning(phone: stdPhone)
+        }
 
     }
 
@@ -126,6 +135,19 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
 
+    func getStdPhone() -> String{
+        if (defaults.object(forKey: "StudentData") != nil) {
+            let decoder = try? JSONDecoder().decode(Student.self, from: defaults.object(forKey: "StudentData") as! Data)
+            if let stdPhone = decoder?.phone{
+                return stdPhone
+
+            } else {
+                return ""
+            }
+        } else {
+            return ""
+        }
+    }
     func setBtnImgs(type : String) {
 
         self.imageBtn.setImage(UIImage(named: "\(type)BtnImg"), for: .normal)
@@ -249,6 +271,36 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         backBtn.isHidden = false
     }
 
+    func successfulStatusUpdate(isQuestioning: Bool, isChatting: Bool, questionType: String, conversationId: String) {
+        repeatTime = 0
+        if isChatting {
+            let chatVC = SegueHelper.createViewController(storyboardName: "Main", viewControllerId: "ChatVC") as! ChatVC
+            chatVC.conversationId = conversationId
+            switch questionType {
+            case "science":
+                chatVC.type = .science
+            case "math":
+                chatVC.type = .math
+            case "english":
+                chatVC.type = .english
+            case "toefl":
+                chatVC.type = .toefl
+            default:
+                break
+            }
+            SegueHelper.presentViewController(sourceViewController: self, destinationViewController: chatVC)
+        }
+    }
+
+    func unsuccessfulStatusUpdate(error: String) {
+        repeatTime += 1
+        if repeatTime < 6{
+            userHelper.isChattingOrQuestioning(phone: stdPhone)
+        } else if repeatTime == 6{
+            ViewHelper.showToastMessage(message: error)
+            repeatTime = 0
+        }
+    }
 }
 
 extension SendQuestionVC: UITextViewDelegate {

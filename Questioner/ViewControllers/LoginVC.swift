@@ -27,6 +27,10 @@ class LoginVC: UIViewController, UserDelegate, UITextFieldDelegate {
         super.viewDidLoad()
         self.indic.isHidden = true
         userHelper.delegate = self
+
+        usernameTF.delegate = self
+        passwordTF.delegate = self
+
         self.hideKeyboardWhenTappedAround()
         // Do any additional setup after loading the view.
         passwordView.isHidden = true
@@ -59,23 +63,34 @@ class LoginVC: UIViewController, UserDelegate, UITextFieldDelegate {
     }
 
     @IBAction func loginPressed(_ sender: Any) {
-        if Connectivity.isConnectedToInternet(){
-            loginBtn.isEnabled = false
-
-            if usernameTF.text != nil && passwordTF.text != nil {
+        if validationCheck(){
+            if Connectivity.isConnectedToInternet(){
+                loginBtn.isEnabled = false
                 self.indic.isHidden = false
                 self.indic.startAnimating()
                 userHelper.login(phone: usernameTF.text!, password: passwordTF.text!)
-            } else {
-                ViewHelper.showToastMessage(message: "All fields are required")
+            }else{
+                let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
-        }else{
-            let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
         }
-
     }
+
+    func validationCheck() -> Bool {
+        var valid = true
+        if usernameTF.text == nil || passwordTF.text == nil{
+            ViewHelper.showToastMessage(message: "All fields are required")
+            valid = false
+        }else{
+            if !ValidationHelper.validateCellPhone(phone: usernameTF.text!){
+                ViewHelper.showToastMessage(message: "Please enter a valid phone")
+                valid = false
+            }
+        }
+        return valid
+    }
+
     func successfulOperation() {
         loginBtn.isEnabled = true
 

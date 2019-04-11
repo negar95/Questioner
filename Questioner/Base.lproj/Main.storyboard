@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yRu-8X-7mX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yRu-8X-7mX">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -71,7 +70,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" textContentType="username"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next" textContentType="tel"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -199,7 +198,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next" textContentType="tel"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -234,7 +233,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="done" textContentType="new-password"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -281,10 +280,10 @@
                     </view>
                     <connections>
                         <outlet property="indic" destination="ucP-1s-dwY" id="LB5-WC-Yx3"/>
-                        <outlet property="password1TF" destination="ZiU-n3-VBm" id="faS-ru-l6c"/>
                         <outlet property="password1View" destination="lkH-XY-FBp" id="edE-Qt-A6b"/>
-                        <outlet property="password2TF" destination="OVH-Vk-Mz8" id="EO5-8N-K1S"/>
                         <outlet property="password2View" destination="R05-nn-R2s" id="tnT-1X-uw4"/>
+                        <outlet property="passwordTF" destination="OVH-Vk-Mz8" id="EO5-8N-K1S"/>
+                        <outlet property="phoneTF" destination="ZiU-n3-VBm" id="faS-ru-l6c"/>
                         <outlet property="resetBtn" destination="SPU-4y-XaZ" id="iXM-Mk-WW0"/>
                     </connections>
                 </viewController>
@@ -1183,7 +1182,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="next" textContentType="name"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="usernameTextFieldIC" translatesAutoresizingMaskIntoConstraints="NO" id="Uaa-df-HQ0">
                                         <rect key="frame" x="200" y="0.0" width="40" height="40"/>
@@ -1214,7 +1213,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next" textContentType="email"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emailTextFieldIC" translatesAutoresizingMaskIntoConstraints="NO" id="q42-uI-pfi">
                                         <rect key="frame" x="200" y="0.0" width="40" height="40"/>
@@ -1245,7 +1244,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next" textContentType="tel"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mobileTextFieldIC" translatesAutoresizingMaskIntoConstraints="NO" id="SMd-7Y-lo8">
                                         <rect key="frame" x="200" y="0.0" width="40" height="40"/>
@@ -1276,7 +1275,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="next" textContentType="password"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passwordTextFieldIC" translatesAutoresizingMaskIntoConstraints="NO" id="b1Z-no-hz5">
                                         <rect key="frame" x="200" y="0.0" width="40" height="40"/>
@@ -1307,7 +1306,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="Foo-Regular" family="Foo" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="done" textContentType="password"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passwordTextFieldIC" translatesAutoresizingMaskIntoConstraints="NO" id="Vnl-vM-wHJ">
                                         <rect key="frame" x="200" y="0.0" width="40" height="40"/>
@@ -1549,27 +1548,27 @@
         </scene>
     </scenes>
     <resources>
-        <image name="acceptBtn" width="129.83999633789062" height="34.799999237060547"/>
-        <image name="dismiss" width="75" height="75"/>
-        <image name="emailTextFieldIC" width="72" height="72"/>
+        <image name="acceptBtn" width="541" height="145"/>
+        <image name="dismiss" width="50" height="50"/>
+        <image name="emailTextFieldIC" width="32" height="32"/>
         <image name="login" width="540" height="145"/>
-        <image name="logo" width="46.080001831054688" height="46.080001831054688"/>
+        <image name="logo" width="128" height="128"/>
         <image name="logoutBtn" width="333" height="126"/>
-        <image name="mathBtnHistory" width="159.83999633789062" height="60.479999542236328"/>
-        <image name="mobileTextFieldIC" width="72" height="72"/>
-        <image name="noConversation" width="100" height="100"/>
-        <image name="passwordTextFieldIC" width="72" height="72"/>
-        <image name="paymentImg" width="352.32000732421875" height="271.67999267578125"/>
+        <image name="mathBtnHistory" width="333" height="126"/>
+        <image name="mobileTextFieldIC" width="32" height="32"/>
+        <image name="noConversation" width="50" height="50"/>
+        <image name="passwordTextFieldIC" width="32" height="32"/>
+        <image name="paymentImg" width="734" height="566"/>
         <image name="reset_password" width="785" height="164"/>
         <image name="signup" width="590" height="159"/>
         <image name="signupChoose" width="541" height="144"/>
-        <image name="typeBtn1" width="292.67999267578125" height="88.199996948242188"/>
-        <image name="typeBtn2" width="292.67999267578125" height="88.199996948242188"/>
-        <image name="typeBtn3" width="390.239990234375" height="124.31999969482422"/>
-        <image name="typeBtn4" width="391.67999267578125" height="121.91999816894531"/>
-        <image name="usernameTextFieldIC" width="72" height="72"/>
+        <image name="typeBtn1" width="813" height="245"/>
+        <image name="typeBtn2" width="813" height="245"/>
+        <image name="typeBtn3" width="813" height="259"/>
+        <image name="typeBtn4" width="816" height="254"/>
+        <image name="usernameTextFieldIC" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iCt-Qt-dmG"/>
+        <segue reference="lVj-zb-VV9"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -14,8 +14,8 @@ class PaymentVC: UIViewController, ZarinPalPaymentDelegate, UserDelegate {
     @IBOutlet weak var indicatorBackView: UIView!
     
     @IBOutlet weak var indicatorView: UIView!
-    var firstAmount = 10000
-    var secondAmount = 10000
+    var firstAmount = 75000
+    var secondAmount = 200000
 
     var retryCount = 0
     var expireDate = Date()
