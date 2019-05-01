@@ -10,14 +10,15 @@ import Foundation
 import UIKit
 
 class ViewHelper {
+
     class func MakeShadowView(frame: CGRect, color: UIColor, opacity: Float, radius: CGFloat) -> UIView{
-        
         let shadowView = UIView(frame: frame)
         shadowView.backgroundColor = color
         shadowView.layer.opacity = opacity
         shadowView.layer.cornerRadius = radius;
         return shadowView
     }
+
     class func showToastMessage(message:String) {
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let holder = UIView(frame: CGRect.zero)
@@ -47,19 +48,14 @@ class ViewHelper {
         basketTopFrame.origin.y = 0
         //        basketTopFrame.origin.x = 0
         
-        UIView.animate(withDuration
-            :2.0, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options:UIView.AnimationOptions.curveEaseOut, animations: { () -> Void in
-                //                label.frame = basketTopFrame
+        UIView.animate(withDuration: 1.0, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options:UIView.AnimationOptions.curveEaseOut, animations: { () -> Void in
                 holder.frame = basketTopFrame
-        },  completion: {
-            (value: Bool) in
-            UIView.animate(withDuration:1.0, delay: 1.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options: UIView.AnimationOptions.curveEaseIn, animations: { () -> Void in
-                holder.frame = CGRect(x: 0, y: -64, width: appDelegate.window!.frame.size.width, height: 64)
-            },  completion: {
-                (value: Bool) in
-                holder.removeFromSuperview()
+            }, completion: { (value: Bool) in
+                UIView.animate(withDuration:1.0, delay: 0.8, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.1, options: UIView.AnimationOptions.curveEaseIn, animations: { () -> Void in
+                        holder.frame = CGRect(x: 0, y: -64, width: appDelegate.window!.frame.size.width, height: 64)
+                    }, completion: { (value: Bool) in
+                        holder.removeFromSuperview()
+                    })
             })
-        })
     }
-
 }

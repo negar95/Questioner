@@ -11,19 +11,17 @@ import Foundation
 class ValidationHelper {
 
     class func validateName(name:String) -> Bool {
-        let nameRegEx = "[A-Za-z ]"
+        let nameRegEx = "[A-Za-z ]{3,}"
 
-        let name = NSPredicate(format: "SELF MATCHES %@", nameRegEx)
-        return name.evaluate(with: name)
+        let nameTest = NSPredicate(format: "SELF MATCHES %@", nameRegEx)
+        return nameTest.evaluate(with: name)
     }
 
     class func validateCellPhone(phone: String) -> Bool {
         let PHONE_REGEX = "[0][0-9]{10}"
+        
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", PHONE_REGEX)
-        if phoneTest.evaluate(with: phone) {
-            return true
-        }
-        return false
+        return phoneTest.evaluate(with: phone)
     }
 
     class func validateEmail(email: String) -> Bool {

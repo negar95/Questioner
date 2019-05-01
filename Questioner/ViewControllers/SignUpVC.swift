@@ -73,8 +73,10 @@ class SignUpVC: UIViewController, UserDelegate, UITextFieldDelegate {
     @IBAction func signUpPressed(_ sender: Any) {
         if validationCheck(){
             if Connectivity.isConnectedToInternet(){
+                signUpBtn.isEnabled = false
                 self.indic.isHidden = false
                 self.indic.startAnimating()
+                userHelper.signup(userName: name.text!, password: pass.text!, phone: phoneNumber.text!, email: email.text!)
             }else{
                 let alert = UIAlertController(title: "Connection", message: "Please make sure that your phone is connected to internet.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok!", style: .cancel, handler: nil))
@@ -115,6 +117,7 @@ class SignUpVC: UIViewController, UserDelegate, UITextFieldDelegate {
 
         self.indic.isHidden = true
         self.indic.stopAnimating()
+
         ViewHelper.showToastMessage(message: "Signed UP Succesfully")
         navigationController?.popViewController(animated: true)
     }
@@ -123,6 +126,7 @@ class SignUpVC: UIViewController, UserDelegate, UITextFieldDelegate {
         
         self.indic.isHidden = true
         self.indic.stopAnimating()
+
         ViewHelper.showToastMessage(message: error)
     }
 
