@@ -26,7 +26,7 @@ enum typeEnum {
     }
 }
 
-class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageDelegate {
+class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MessageDelegate, UserDelegate {
     @IBOutlet weak var bottomOfTheQVC: NSLayoutConstraint!
     
     @IBOutlet weak var questionTF: UITextView!
@@ -55,6 +55,7 @@ class SendQuestionVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.hideKeyboardWhenTappedAround()
         questionTF.delegate = self
         messageHelper.delegate = self
+        userHelper.delegate = self
 
         questionTF.text = "Write your question here"
         questionTF.textColor = .lightGray

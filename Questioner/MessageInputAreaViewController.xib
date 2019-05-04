@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -43,24 +43,11 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jEY-5L-IpU">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
-                    <subviews>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="nwm-WK-xgM">
-                            <rect key="frame" x="177.5" y="40" width="20" height="20"/>
-                        </activityIndicatorView>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="nwm-WK-xgM" firstAttribute="centerY" secondItem="jEY-5L-IpU" secondAttribute="centerY" id="JDj-Fy-Kw2"/>
-                        <constraint firstItem="nwm-WK-xgM" firstAttribute="centerX" secondItem="jEY-5L-IpU" secondAttribute="centerX" id="Nzf-bY-2Y6"/>
-                    </constraints>
-                </view>
                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xa1-6b-BcS">
-                    <rect key="frame" x="270" y="30.5" width="39" height="39"/>
+                    <rect key="frame" x="270" y="34.5" width="39" height="31"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="39" id="i3T-sV-k0B"/>
-                        <constraint firstAttribute="height" constant="39" id="lGJ-Gr-nc9"/>
+                        <constraint firstAttribute="height" constant="31" id="lGJ-Gr-nc9"/>
                     </constraints>
                     <state key="normal">
                         <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -69,7 +56,7 @@
                         <action selector="showAttachOptions" destination="-1" eventType="touchUpInside" id="HRI-kZ-UXI"/>
                     </connections>
                 </button>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="BwS-Qd-gNv">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="BwS-Qd-gNv">
                     <rect key="frame" x="8" y="4" width="250" height="92"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -122,6 +109,19 @@
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jEY-5L-IpU">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="nwm-WK-xgM">
+                            <rect key="frame" x="177.5" y="40" width="20" height="20"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="nwm-WK-xgM" firstAttribute="centerY" secondItem="jEY-5L-IpU" secondAttribute="centerY" id="JDj-Fy-Kw2"/>
+                        <constraint firstItem="nwm-WK-xgM" firstAttribute="centerX" secondItem="jEY-5L-IpU" secondAttribute="centerX" id="Nzf-bY-2Y6"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
@@ -147,7 +147,7 @@
                 <constraint firstItem="jEY-5L-IpU" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="uOl-KF-EXj"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="32.799999999999997" y="-33.283358320839582"/>
+            <point key="canvasLocation" x="32.608695652173914" y="-33.482142857142854"/>
         </view>
     </objects>
 </document>
